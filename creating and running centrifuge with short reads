@@ -1,0 +1,27 @@
+#The soil samples are compressed 
+
+fastq = gzip("Soil sample file name", "rt")
+lines = fastq.readlines()
+
+n=100
+file open("100.txt", "w")
+i=0
+for line in lines:
+  i=i+1
+  if (i+2) % 4 == 0:
+    file.write(line[0:n]="\n")
+    
+#Then change n to 200 and 500
+
+
+#Running centrifuge with the shortened reads:
+
+centrifuge -x /home/django/Centrifuge_index/adv -q <shortened soil sample file path> -S <file path to output file>
+
+#repeat with each of the shortened soil files
+
+#time how long each takes using:
+import time
+start_time = time.time()
+main()
+print("--- %s seconds ---" % (time.time() - start_time))
