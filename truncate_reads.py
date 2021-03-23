@@ -1,19 +1,12 @@
 import time
 import pyfastx
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
 def shorten_reads(file_name, num_bases):
-    # Use a breakpoint in the code line below to debug your script.
     with open(file_name, "w") as fh:
 
         for name, seq, qual in pyfastx.Fastq('FAL00432.fastq', build_index=False):
             fh.write(f">{name}\n{seq[:num_bases]}\n")
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     shorten_reads('short_fastq_100.fastq', 100)
     shorten_reads('short_fastq_200.fastq', 200)
