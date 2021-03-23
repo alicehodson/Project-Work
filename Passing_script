@@ -27,7 +27,7 @@ directory = Path('.')
 # list of all files that match our search pattern
 output_files = list(directory.rglob(f'*{sample_letter}.output'))
 df = pd.DataFrame()
-# for each file
+#for each file
 for file_path in output_files:
     temp_df =pd.read_csv(file_path, sep='\t', names = ['classified', 'read_ID', 'classification', 'length', 'LCA_Mapping'])
     temp_df['file'] = file_path.stem
