@@ -34,10 +34,10 @@ for file_path in output_files:
     df = df.append(temp_df)
     results[file_path.stem] = [0,0,0]
 # only classified reads
-df = df[df['seqID'].uneq('unclassified')]
+df = df[df['seqID'].Series.ne('unclassified')]
 print(df['file'].unique())
 # group by the read_id across all the files and that they were classified
-gb = df.groupby(['read_ID', 'seqID',])
+gb = df.groupby(['read_ID', 'seqID'])
 # for each group call the functon - note could be switched to .apply now which would be faster!
 for name,group in gb:
     check_group(group)
