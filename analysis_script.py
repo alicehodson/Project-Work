@@ -7,7 +7,9 @@ def check_group(group):
        Check a group from dataframe to see if a read at different lengths has the same classification as the original length
     """
     # Get the true classification from the longest reads
-    true_species = group[group['file'].eq(f'centrifuge_OG_{sample_number}')]['seqID'].iloc[1]
+    print(f'centrifuge_OG_run_{sample_number}')
+    print(group)
+    true_species = group[group['file'].eq(f'centrifuge_OG_run_{sample_number}')]['seqID'].iloc[0]
     print(true_species)
     # return a 1 if it's true across the group and 0 if not
     group['positives']= np.where(group['seqID']==true_species, 1,0)
@@ -34,10 +36,9 @@ for file_path in output_files:
     df = df.append(temp_df)
     results[file_path.stem] = [0,0,0]
 # only classified reads
-df = df[df['seqID'].Series.ne('unclassified')]
 print(df['file'].unique())
 # group by the read_id across all the files and that they were classified
-gb = df.groupby(['read_ID', 'seqID'])
+gb = df.groupby('read_ID')
 # for each group call the functon - note could be switched to .apply now which would be faster!
 for name,group in gb:
     check_group(group)
