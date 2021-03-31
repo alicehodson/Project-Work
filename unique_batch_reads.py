@@ -1,18 +1,25 @@
-def split_file(lines_per_file, small_file_name):
-  with open('really_big_file.txt') as bigfile:
-    for lineno, line in enumerate(bigfile):
-        if lineno % lines_per_file == 0:
-            if smallfile:
-                smallfile.close()
-            small_filename = 'small_file_{}.txt'.format(lineno + lines_per_file)
-            smallfile = open(small_filename, "w")
-        smallfile.write(line)
-    if smallfile:
-        smallfile.close()
-        
-sample_letter = 'a'        
-split_file(3000, 'unique_3000_batch_reads_f{sample_letter}.fasta')
-split_file(512, 'unique_512_batch_reads_f{sample_letter}.fasta')
-split_file(256, 'unique_256_batch_reads_f{sample_letter}.fasta')
-split_file(128, 'unique_128_batch_reads_f{sample_letter}.fasta')
-split_file(64, 'unique_64_batch_reads_f{sample_letter}.fasta')
+import pyfastx
+from pathlib import Path
+
+directory = Path('.')
+output_files = list(directory.rglob('*'))
+output_files = [fastq_string_file for fastq_string_file in output_files if '.fastq' in fastq_string_file.suffixes]
+print(output_files)
+
+length = [3000, 512, 256, 128, 64]
+for num_reads in length:
+    reads_list = []
+    count =  0
+    for read_file in output_files:
+        fx = pyfastx.Fastx(str(read_file))
+        idx = [3000, 512, 256, 128, 64]
+        for idx,(name,seq,qual,comment) in enumerate(pyfastx.Fastx('soil_sample_a.fastq')):
+            count += 1
+            reads_list.append(f">{name}\n{seq}")
+            if count == num_reads:
+                count = 0
+                with open(f'{num_reads}_short_{read_file.name}', 'w') as fh:
+                    fh.write("\n".join(reads_list))
+                reads_list = []
+                break
+
