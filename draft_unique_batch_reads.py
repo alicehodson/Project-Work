@@ -7,7 +7,7 @@ output_files = [fastq_string_file for fastq_string_file in output_files if '.fas
 print(output_files)
 
 
-def unique_read(num_reads, file_name):
+def unique_read(num_reads, file_number):
     reads_list = []
     count = 0
     sample_letter = 'a'
@@ -16,12 +16,13 @@ def unique_read(num_reads, file_name):
         count += 1
         reads_list.append(f">{name}\n{seq}")
         if count == num_reads:
-            with open(f'{num_reads}_short_unique_{sample_letter}', 'w') as fh:
+            with open(f'{file_number}_short_unique_{sample_letter}.fastq', 'w') as fh:
                 fh.write("\n".join(reads_list))
             reads_list = []
-  
-unique_read(3000)
-unique_read(3512)
-unique_read(3768)
-unique_read(3896)
-unique_read(3960)
+            break
+
+unique_read(3000, '3000')
+unique_read(3512, '512')
+unique_read(3768, '256')
+unique_read(3896, '128')
+unique_read(3960, '64')
