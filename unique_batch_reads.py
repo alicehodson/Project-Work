@@ -18,5 +18,3 @@ for idx,(name,seq,qual,comment) in enumerate(pyfastx.Fastx('soil_sample_a.fastq'
         with open(f'{count}_short_unique_{sample_letter}.fastq', 'w') as fh:
             fh.write("\n".join(reads_list))
         reads_list = []
-        break
-
